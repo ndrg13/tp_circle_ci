@@ -7,5 +7,18 @@ jobs:
           username: nicodrg
           password: Ndrg100394  # context / project UI env-var reference
     steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - restore_cache:
+          name: Restore Yarn package cache
+          keys:
+            - npm-v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: yarn global add node-gyp && yarn install
+      - saving_cache:
+          name: Save Yarn package cache
+          key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache.yarn
+        
+          

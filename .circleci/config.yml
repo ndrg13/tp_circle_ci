@@ -17,13 +17,13 @@ executors:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
       environment:
-        DATABASE_URL: "postgres://postgres@localhost:5432/postgres"
+        DATABASE_URL: "postgres://postgres:$POSTGRES_PASSWORD@localhost:5432/postgres"
         JWT_SECRET: string
         API_PORT: 3000
         API_HOST: localhost
         API_PROTOCOL: http
         POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: password
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
         POSTGRES_DB: postgres
 jobs:
   build:

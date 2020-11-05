@@ -1,12 +1,12 @@
 version: 2.1
 executors:
-  - node-executor:
+  node-executor:
       docker:
         - image: circleci/node:12
           auth:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
-  - postgresql-executor:
+  postgresql-executor:
       docker:
         - image: circleci/postgres
           auth:

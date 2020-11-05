@@ -1,6 +1,6 @@
 FROM node:12
 
-COPY /
+COPY / .
 
 COPY package.json
 

@@ -1,14 +1,14 @@
 version: 2.1
 executors:
-  my-executor:
+  node-executor:
     docker:
       - image: circleci/node:12
         auth:
-          username: nicodrg
-          password: Ndrg100394
+          username: $DOCKERHUB_LOGIN
+          password: $DOCKERHUB_PASSWORD
 jobs:
   build:
-    executor: my-executor
+    executor: node-executor
     steps:
       - checkout
       - run:
@@ -20,7 +20,7 @@ jobs:
           paths:
             - ./node_modules
   lint:
-    executor: my-executor
+    executor: node-executor
     steps:
       - checkout
       - restore_cache:
@@ -30,7 +30,7 @@ jobs:
           name: Analyse code with tslint and format with prettier
           command: yarn lint && yarn format:check 
   test:
-    executor: my-executor
+    executor: node-executor
     steps:
       - checkout
       - restore_cache:

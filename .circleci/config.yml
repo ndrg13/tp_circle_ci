@@ -18,7 +18,7 @@ executors:
             password: $DOCKERHUB_PASSWORD
       environment:
         DATABASE_URL: "postgres://postgres:$POSTGRES_PASSWORD@localhost:5432/postgres"
-        JWT_SECRET: string
+        JWT_SECRET: 
         API_PORT: 3000
         API_HOST: localhost
         API_PROTOCOL: http

@@ -15,18 +15,15 @@ jobs:
           name: Install dependencies
           command: yarn global add node-gyp && yarn install
       - save_cache:
-          name: Save Yarn package cache
-          key: npm-v3-dependencies-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn3
+          key: npm-v5-dependencies-{{ checksum "yarn.lock" }}
+          path:
+            - ~/.cache/yarn5
   lint:
     executor: my-executor
     steps:
       - checkout
       - restore_cache:
-          name: Restore Yarn package cache
-          keys: 
-            - npm-v3-dependencies-{{ checksum "yarn.lock" }}
+          key: npm-v5-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Analyse code with tslint and format with prettier
           command: yarn lint && yarn format:check 
@@ -35,9 +32,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          name: Restore Yarn package cache
-          keys: 
-            - npm-v3-dependencies-{{ checksum "yarn.lock" }}
+          keys: npm-v5-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Run test with jest
           command: yarn test:ci

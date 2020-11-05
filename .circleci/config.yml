@@ -19,7 +19,7 @@ jobs:
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache.yarn
-            
+
   lint:
     docker:
       - image: circleci/node:12
@@ -37,12 +37,12 @@ jobs:
       - run:
           name: Format code with prettier
           command: yarn format:check
-          
+
   test:
     docker:
       - image: circleci/node:12
         auth:
-          username: nicodrg
+          sername: nicodrg
           password: Ndrg100394
     steps:
       - checkout
@@ -52,3 +52,11 @@ jobs:
       - run:
           name: Run test with jest
           command: yarn test:ci
+
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build
+      - lint
+      - test

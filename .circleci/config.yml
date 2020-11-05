@@ -2,7 +2,7 @@ version: 2.1
 executors:
   my-executor:
     docker:
-      - image: cimg/node:12
+      - image: cimg/node:14.10.1
         auth:
           username: nicodrg
           password: Ndrg100394

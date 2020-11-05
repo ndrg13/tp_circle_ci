@@ -6,8 +6,12 @@ executors:
           auth:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
-  postgresql-executor:
+  node-and-postgresql-executor:
       docker:
+        - image: circleci/node:12
+          auth:
+            username: $DOCKERHUB_LOGIN
+            password: $DOCKERHUB_PASSWORD
         - image: circleci/postgres
           auth:
             username: $DOCKERHUB_LOGIN
@@ -45,6 +49,24 @@ jobs:
       - run: 
           name: Run test with jest
           command: yarn test:ci
+  test_end_to_end:
+    executor: node-and-postgresql-executor
+    environment:
+      DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
+      JWT_SECRET: 
+      API_PORT: 3000
+      API_HOST: localhost
+      API_PROTOCOL: http
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore yarn package cache
+          key: npm-v7-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Run end to end test
+          command: yarn test:e2e
+
+
 workflows:
   version: 2
   integration:
@@ -54,5 +76,8 @@ workflows:
           requires:
             - build
       - test:
+          requires:
+            - build
+      - test_end_to_end:
           requires:
             - build

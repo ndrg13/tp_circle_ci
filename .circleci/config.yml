@@ -16,7 +16,7 @@ jobs:
           command: yarn global add node-gyp && yarn install
       - save_cache:
           key: npm-v5-dependencies-{{ checksum "yarn.lock" }}
-          path:
+          paths:
             - ~/.cache/yarn5
   lint:
     executor: my-executor

@@ -89,8 +89,14 @@ jobs:
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_LOGIN" --password-stdin
       - run:
+          name: Tag Docker image
+          command: docker tag $IMAGE_NAME:app nicodrg/my-awesome-ci-expr:$CIRCLE_BUILD_NUM
+      - run:
+          name: Tag Docker image
+          command: docker tag $IMAGE_NAME:app nicodrg/my-awesome-ci-expr:latest
+      - run:
           name: Push to Docker Hub
-          command: docker push $IMAGE_NAME:app
+          command: docker push $IMAGE_NAME:latest
 workflows:
   version: 2
   integration:
@@ -107,5 +113,6 @@ workflows:
             - build
       - push_to_hub:
           requires:
+            - lint
             - test
             - test_end_to_end

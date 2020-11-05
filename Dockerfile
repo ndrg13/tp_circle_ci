@@ -1,7 +1,5 @@
 FROM node:12
 
-COPY src/ .
-
-COPY package.json .
+COPY / .
 
 RUN yarn global add node-gyp && yarn install && yarn start

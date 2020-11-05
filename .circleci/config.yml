@@ -27,7 +27,7 @@ jobs:
           username: nicodrg
           password: Ndrg100394
     steps:
-      - chekcout
+      - checkout
       - restore_cache:
           name: Restore Yarn package cache
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}

@@ -18,6 +18,8 @@ jobs:
       - save_cache:
           name: Save Yarn package cache
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
 
   lint:
     docker:

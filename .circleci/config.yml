@@ -91,6 +91,8 @@ jobs:
       IMAGE_NAME: my-awesome-ci-expr
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Login to Docker Hub
           command: |

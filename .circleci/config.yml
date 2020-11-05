@@ -42,9 +42,6 @@ jobs:
       - restore_cache:
           name: Restore yarn package cache
           key: npm-v7-dependencies-{{ checksum "yarn.lock" }}
-      - run:
-          name: Start PostgreSQL database
-          command:
       - run: 
           name: Run test with jest
           command: yarn test:ci

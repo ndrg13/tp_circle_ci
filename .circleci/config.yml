@@ -12,16 +12,19 @@ executors:
           auth:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
-        - image: circleci/postgres
+        - image: circleci/postgres:9.6.2-alpine
           auth:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
       environment:
-        DATABASE_URL: "postgres://root@localhost:5432/psdb"
-        JWT_SECRET: 
+        DATABASE_URL: "postgres://psqluser@localhost:5432/psdb"
+        JWT_SECRET: string
         API_PORT: 3000
         API_HOST: localhost
         API_PROTOCOL: http
+        POSTGRES_USER: psqluser
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: psdb
 jobs:
   build:
     executor: node-executor

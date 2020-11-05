@@ -16,6 +16,12 @@ executors:
           auth:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
+      environment:
+        DATABASE_URL: "postgres://root@localhost:5432/psdb"
+        JWT_SECRET: 
+        API_PORT: 3000
+        API_HOST: localhost
+        API_PROTOCOL: http
 jobs:
   build:
     executor: node-executor
@@ -51,12 +57,7 @@ jobs:
           command: yarn test:ci
   test_end_to_end:
     executor: node-and-postgresql-executor
-    environment:
-      DATABASE_URL: "postgres://e2e:test@localhost:5432/psdb"
-      JWT_SECRET: 
-      API_PORT: 3000
-      API_HOST: localhost
-      API_PROTOCOL: http
+
     steps:
       - checkout
       - restore_cache:
@@ -65,8 +66,6 @@ jobs:
       - run:
           name: Run end to end test
           command: yarn test:e2e
-
-
 workflows:
   version: 2
   integration:

@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker: 
-      - image: cimg/node:14.10.1 # the primary container, where your job's commands are run
+      - image: circleci/node:12 # the primary container, where your job's commands are run
         auth:
           username: nicodrg
           password: Ndrg100394  # context / project UI env-var reference
@@ -10,17 +10,43 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore Yarn package cache
-          keys:
-            - npm-v1-dependencies-{{ checksum "yarn.lock" }}
+          key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn global add node-gyp && yarn install
-      - run:
-          name: 
       - save_cache:
           name: Save Yarn package cache
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache.yarn
-        
-          
+  lint:
+    docker:
+      - image: circleci/node:12
+        auth:
+          username: nicodrg
+          password: Ndrg100394
+    steps:
+      - chekcout
+      - restore_cache:
+          name: Restore Yarn package cache
+          key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Analyse code with tslint
+          command: yarn lint
+      - run:
+          name: Format code with prettier
+          command: yarn format:check
+  test:
+    docker:
+      - image: circleci/node:12
+        auth:
+          sername: nicodrg
+          password: Ndrg100394
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn package cache
+          key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Run test with jest
+          command: yarn test:ci

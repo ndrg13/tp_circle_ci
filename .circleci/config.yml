@@ -74,17 +74,23 @@ jobs:
       - run:
           name: Run end to end test
           command: yarn test:e2e
-  push_to_hub:
+  build_docker_image:
     executor: buildpack
     environment:
-      IMAGE_NAME: testimg
+      IMAGE_NAME: my-awesome-ci-expr
     steps:
       - checkout
-      - setup_remote_docker:
+      - setup_remote_docker
           version: 19.03.13
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:app .
+  push_docker_image:
+    executor: buildpack
+    environment:
+      IMAGE_NAME: my-awesome-ci-expr
+    steps:
+      - checkout
       - run:
           name: Login to Docker Hub
           command: |
@@ -98,6 +104,10 @@ jobs:
       - run:
           name: Push to Docker Hub
           command: docker push $IMAGE_NAME:latest
+  generate_doc:
+    executor: node-executor
+    steps:
+      - checkout
       - run:
           name: Build doc
           command: yarn doc:build

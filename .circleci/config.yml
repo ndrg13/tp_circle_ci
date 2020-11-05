@@ -130,6 +130,9 @@ workflows:
             - lint
             - test
             - test_end_to_end
-      - push_to_hub:
+      - push_docker_image:
           requires:
             - build_docker_image
+      - generate_doc:
+          requires:
+            - push_docker_image

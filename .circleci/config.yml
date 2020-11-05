@@ -22,7 +22,7 @@ jobs:
           name: Save Yarn package cache
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
-            - ./.cache/yarn
+            - ~/.cache/yarn2
   lint:
     executor: my-executor
     steps:

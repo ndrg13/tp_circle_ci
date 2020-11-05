@@ -125,8 +125,11 @@ workflows:
       - test_end_to_end:
           requires:
             - build
-      - push_to_hub:
+      - build_docker_image:
           requires:
             - lint
             - test
             - test_end_to_end
+      - push_to_hub:
+          requires:
+            - build_docker_image

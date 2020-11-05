@@ -5,7 +5,7 @@ executors:
       - image: circleci/node:12
         auth:
           username: nicodrg
-          password: **
+          password: Ndrg100394
 jobs:
   build:
     executor: my-executor

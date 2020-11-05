@@ -40,7 +40,7 @@ jobs:
     docker:
       - image: circleci/node:12
         auth:
-          sername: nicodrg
+          username: nicodrg
           password: Ndrg100394
     steps:
       - checkout

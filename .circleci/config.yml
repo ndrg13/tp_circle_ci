@@ -31,6 +31,7 @@ executors:
         auth:
           username: $DOCKERHUB_LOGIN
           password: $DOCKERHUB_PASSWORD
+
 jobs:
   build:
     executor: node-executor

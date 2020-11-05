@@ -74,7 +74,7 @@ jobs:
       - run:
           name: Run end to end test
           command: yarn test:e2e
-  build_docker_image:
+  build_and_push_docker_image:
     executor: buildpack
     environment:
       IMAGE_NAME: my-awesome-ci-expr
@@ -85,14 +85,6 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:app .
-  push_docker_image:
-    executor: buildpack
-    environment:
-      IMAGE_NAME: my-awesome-ci-expr
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
       - run:
           name: Login to Docker Hub
           command: |
@@ -127,14 +119,11 @@ workflows:
       - test_end_to_end:
           requires:
             - build
-      - build_docker_image:
+      - build_and_push_docker_image:
           requires:
             - lint
             - test
             - test_end_to_end
-      - push_docker_image:
-          requires:
-            - build_docker_image
       - generate_doc:
           requires:
-            - push_docker_image
+            - build_and_push_docker_image

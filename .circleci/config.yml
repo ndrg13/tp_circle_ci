@@ -2,36 +2,49 @@ version: 2.1
 executors:
   my-executor:
     docker:
-      - image: cimg/node:14.10.1
+      - image: circleci/node:12
         auth:
           username: nicodrg
-          password: Ndrg100394
+          password: **
 jobs:
   build:
     executor: my-executor
     steps:
       - checkout
+      - restore_cache:
+          name: Restore Yarn package cache
+          keys: 
+            - npm-v4-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: yarn global add node-gyp && yarn install
       - save_cache:
-          key: npm-v6-dependencies-{{ checksum "yarn.lock" }}
+          name: Save Yarn package cache
+          key: npm-v4-dependencies-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn5
+            - ./node_modules
   lint:
     executor: my-executor
     steps:
       - checkout
       - restore_cache:
-          key: npm-v6-dependencies-{{ checksum "yarn.lock" }}
-      - run: yarn lint && yarn format:check 
+          name: Restore Yarn package cache
+          keys: 
+            - npm-v4-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Analyse code with tslint and format with prettier
+          command: yarn lint && yarn format:check 
   test:
     executor: my-executor
     steps:
       - checkout
       - restore_cache:
-          key: npm-v6-dependencies-{{ checksum "yarn.lock" }}
-      - run: yarn test:ci
+          name: Restore Yarn package cache
+          keys: 
+            - npm-v4-dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Run test with jest
+          command: yarn test:ci
 workflows:
   version: 2
   integration:

@@ -17,12 +17,12 @@ executors:
             username: $DOCKERHUB_LOGIN
             password: $DOCKERHUB_PASSWORD
       environment:
-        DATABASE_URL: "postgres://psqluser@localhost:5432/psdb"
+        DATABASE_URL: "postgres://postgres@localhost:5432/psdb"
         JWT_SECRET: string
         API_PORT: 3000
         API_HOST: localhost
         API_PROTOCOL: http
-        POSTGRES_USER: psqluser
+        POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password
         POSTGRES_DB: psdb
 jobs:
@@ -60,7 +60,6 @@ jobs:
           command: yarn test:ci
   test_end_to_end:
     executor: node-and-postgresql-executor
-
     steps:
       - checkout
       - restore_cache:

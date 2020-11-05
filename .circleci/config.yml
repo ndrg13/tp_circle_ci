@@ -24,14 +24,6 @@ executors:
         API_PROTOCOL: http
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-        POSTGRES_DB: postgres
-  buildpack:
-    docker:
-      - image: circleci/buildpack-deps:stretch
-        auth:
-          username: $DOCKERHUB_LOGIN
-          password: $DOCKERHUB_PASSWORD
-
 jobs:
   build:
     executor: node-executor

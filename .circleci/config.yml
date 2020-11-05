@@ -19,6 +19,7 @@ jobs:
           key: npm-v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache.yarn
+            
   lint:
     docker:
       - image: circleci/node:12
@@ -36,6 +37,7 @@ jobs:
       - run:
           name: Format code with prettier
           command: yarn format:check
+          
   test:
     docker:
       - image: circleci/node:12
